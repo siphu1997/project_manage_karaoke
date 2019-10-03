@@ -1,0 +1,21 @@
+$primaryColor: #2b4aa4;
+$secondaryColor: #3a62d5;
+
+%center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0 auto;
+}
+
+.m-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

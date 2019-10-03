@@ -16,11 +16,62 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+
+    <!-- FONT AWESOME -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./css/login.css" />
   </head>
+
   <body>
+    <main>
+      <div class="container m-center">
+        <form id="formLogin">
+          <div class="group-input">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <input
+              type="text"
+              name="username"
+              id=" txtEmail"
+              placeholder="Email ID"
+              required
+            />
+          </div>
+          <div class="group-input">
+            <i class="fa fa-key" aria-hidden="true"></i>
+            <input
+              type="password"
+              name="password"
+              id=" txtPw"
+              placeholder="Password"
+              required
+            />
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <input type="checkbox" name="remember" id="remember" />
+              <span>Remember me</span>
+            </div>
+            <div class="col-6 .float-right">
+              <a href="#">
+                Forgot Password ?
+              </a>
+            </div>
+          </div>
+          <div class="row m-center mt-3">
+            <button type="submit" class="btn editBtn">Login</button>
+          </div>
+        </form>
+      </div>
+    </main>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <h1>TEST</h1>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -36,5 +87,6 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="js/login.js"></script>
   </body>
 </html>
