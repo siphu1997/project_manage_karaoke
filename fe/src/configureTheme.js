@@ -3,6 +3,10 @@ import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 let theme = createMuiTheme({
   typography: {
     // fontSize: 14
+    color: {
+      textPrimary: "#ffffff",
+      textSecondary: "#ffffff"
+    }
   },
   color: {
     success: "#28a745",
