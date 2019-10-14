@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { handleLogin } from "../action/authAction";
 import { Login } from "../component";
+
+import { withSnackbar } from "notistack";
 class LoginCtn extends Component {
   state = {
     email: "",
@@ -16,7 +18,6 @@ class LoginCtn extends Component {
   };
 
   handleClickShowPassword = () => {
-    console.log("ngu");
     this.setState({ showPassword: !this.state.showPassword });
   };
 
@@ -28,12 +29,28 @@ class LoginCtn extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     this.props.handleAuth(email, password);
-    // console.log(email, password);
+  };
+
+  showError = message => {
+    this.props.enqueueSnackbar(message, {
+      variant: "error",
+      preventDuplicate: true
+    });
+  };
+
+  componentDidUpdate = prevProps => {
+    if (
+      prevProps.auth.errorMes !== this.props.auth.errorMes &&
+      this.props.auth.errorMes !== ""
+    ) {
+      this.showError(this.props.auth.errorMes);
+    }
   };
 
   render() {
     const { auth } = this.props;
     const { password, showPassword } = this.state;
+
     return (
       <>
         {auth.isAuth && (
@@ -44,6 +61,8 @@ class LoginCtn extends Component {
           />
         )}
         <Login
+          errorMes={auth.errorMes}
+          isLoading={auth.loading}
           handleChange={this.handleChange}
           handleClickShowPassword={this.handleClickShowPassword}
           handleMouseDownPassword={this.handleMouseDownPassword}
@@ -70,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginCtn);
+)(withSnackbar(LoginCtn));

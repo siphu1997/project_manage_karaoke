@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import testReducer from "./testReducer";
 import authReducer from "./authReducer";
+import staffReducer from "./staffReducer";
 
 export default combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  staff: staffReducer
 });

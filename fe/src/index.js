@@ -8,11 +8,20 @@ import { BrowserRouter as Router } from "react-router-dom";
 import routes from "./configureRoutes";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./configureTheme";
+import { SnackbarProvider } from "notistack";
 ReactDOM.render(
   <Provider store={configureStore}>
     <Router>
       <ThemeProvider theme={theme}>
-        <App routes={routes} />
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center"
+          }}
+        >
+          <App routes={routes} />
+        </SnackbarProvider>
       </ThemeProvider>
     </Router>
   </Provider>,

@@ -1,15 +1,16 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-function RouteWithSubRoutes(route) {
-  return (
-    <Route
-      path={route.path}
-      exact={route.exact}
-      render={props => <route.component {...props} routes={route.routes} />}
-    />
-  );
-}
+import { RouteWithSubRoutes } from "../component";
+// function RouteWithSubRoutes(route) {
+//   return (
+//     <Route
+//       path={route.path}
+//       exact={route.exact}
+//       render={props => <route.component {...props} routes={route.routes} />}
+//     />
+//   );
+// }
 
 class App extends Component {
   render() {
@@ -20,7 +21,6 @@ class App extends Component {
           <Redirect
             to={{
               pathname: "/login"
-              // state: { from: props.location }
             }}
           />
         )}

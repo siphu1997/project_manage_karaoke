@@ -6,10 +6,9 @@ class ApiService {
     this.axios = axios.create({
       baseURL: "https://final-cd.herokuapp.com/api/",
       headers: {
-        "Access-Control-Allow-Origin": "*/*",
         "Content-Type": "application/json"
       },
-      withCredentials: "include"
+      responseType: "json"
     });
     this.token = "";
   }
@@ -22,7 +21,16 @@ class ApiService {
       username: id,
       password: pw
     };
-    return this.axios.post("auth/login", { data });
+    return this.axios.post("auth/login", JSON.stringify(data));
+  };
+
+  getDataUserWithToken = token => {
+    // console.log(token);
+    return this.axios.get("secured/users", {
+      headers: {
+        Authorization: `Basic ${token}`
+      }
+    });
   };
 }
 

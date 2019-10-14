@@ -7,8 +7,8 @@ import {
   InputAdornment,
   IconButton,
   Paper,
-  Box,
-  Typography
+  Typography,
+  CircularProgress
 } from "@material-ui/core";
 import { AccountCircle, Visibility, VisibilityOff } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core";
@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
   },
   editBtn: {
     padding: theme.spacing(2, 5),
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
+    minWidth: "130px"
   },
   ctnSquare: {
     position: "relative",
@@ -62,7 +63,8 @@ export default function Login(props) {
     handleMouseDownPassword,
     password,
     showPassword,
-    handleSubmit
+    handleSubmit,
+    isLoading
   } = props;
   return (
     <div
@@ -95,7 +97,8 @@ export default function Login(props) {
                   label="Email"
                   type="text"
                   required
-                  fullWidth={true}
+                  fullWidth
+                  disabled={isLoading}
                   onChange={handleChange("email")}
                   InputProps={{
                     endAdornment: (
@@ -114,6 +117,7 @@ export default function Login(props) {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={handleChange("password")}
+                  disabled={isLoading}
                   InputProps={{
                     endAdornment: (
                       // <InputAdornment>
@@ -124,6 +128,7 @@ export default function Login(props) {
                           aria-label="toggle password visibility"
                           onClick={handleClickShowPassword}
                           onMouseDown={handleMouseDownPassword}
+                          disabled={isLoading}
                         >
                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
@@ -144,8 +149,19 @@ export default function Login(props) {
                   variant="contained"
                   color="secondary"
                   type="submit"
+                  // startIcon={
+                  //   isLoading ? (
+                  //     <CircularProgress color="inherit" size={30} />
+                  //   ) : (
+                  //     ""
+                  //   )
+                  // }
                 >
-                  LOGIN
+                  {isLoading ? (
+                    <CircularProgress color="inherit" size={24} />
+                  ) : (
+                    "LOGIN"
+                  )}
                 </Button>
               </Grid>
             </Grid>
