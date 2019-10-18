@@ -3,19 +3,58 @@ import { connect } from "react-redux";
 import { handleLogout } from "../action/authAction";
 import { handleFetch } from "../action/staffAction";
 import { MainLayout } from "../component";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { RouteWithSubRoutes } from "../component";
 class HomeCtn extends Component {
+  state = {
+    selectedIndex: "/dashboard"
+  };
+
+  handleListItemClick = name => {
+    this.setState({
+      selectedIndex: name
+    });
+  };
+
   componentDidMount = () => {
     console.log("home ctn sinh ra ");
+    const { tab } = this.props.match.params;
+    this.setState({
+      selectedIndex: "/" + tab
+    });
     if (this.props.staff === null) {
       this.props.handleFetchStaffData();
     }
   };
+
+  // componentDidUpdate = (prevProps, prevState) => {
+  //   console.log(this.props.staff);
+  //   if (this.props.staff === null && this.props.staff !== prevProps.staff) {
+  //     this.props.handleFetchStaffData();
+  //   }
+  // };
+  checkIsAdmin = () => {
+    const { roles } = this.props.staff;
+    for (let index = 0; index < roles.length; index++) {
+      const item = roles[index];
+      if (item.name === "admin") {
+        return true;
+      }
+    }
+    return false;
+  };
   render() {
-    const { handleLogout, routes } = this.props;
+    const { handleLogout, routes, staff, isLoading } = this.props;
+    const { selectedIndex } = this.state;
     return (
-      <MainLayout handleLogout={handleLogout}>
+      <MainLayout
+        handleLogout={handleLogout}
+        selectedIndex={selectedIndex}
+        handleListItemClick={this.handleListItemClick}
+        userName={staff ? staff.username : ""}
+        isAdmin={staff ? this.checkIsAdmin() : null}
+        isLoading={isLoading}
+      >
         <Switch>
           {routes.map((route, index) => (
             <RouteWithSubRoutes key={`home-${index}`} {...route} />
@@ -28,7 +67,8 @@ class HomeCtn extends Component {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  staff: state.staff.staffInfo
+  staff: state.staff.staffInfo,
+  isLoading: state.staff.loading
 });
 
 const mapDispatchToProps = dispatch => ({

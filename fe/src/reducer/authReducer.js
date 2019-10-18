@@ -1,8 +1,7 @@
 import { LOGIN_CONSTANT } from "../action/authAction";
-import { STAFF_CONSTANT } from "../action/staffAction";
 const initState = {
-  isAuth: window.sessionStorage.getItem("isAuth"),
-  // isAuth: true,
+  // isAuth: window.sessionStorage.getItem("isAuth"),
+  isAuth: null,
   loading: false,
   errorMes: ""
 };
@@ -36,6 +35,13 @@ const authReducer = (state = initState, action) => {
         ...state,
         loading: false,
         errorMes: action.payload.errorMes
+      };
+    }
+
+    case LOGIN_CONSTANT.SET_AUTH: {
+      return {
+        ...state,
+        isAuth: action.payload.isAuth
       };
     }
 

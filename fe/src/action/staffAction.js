@@ -35,12 +35,12 @@ export const handleFetch = () => {
   return dispatch => {
     dispatch(fetchBegin());
     const token = window.sessionStorage.getItem("token");
+    api.setToken(token);
     api
-      .getDataUserWithToken(token)
+      .getDataUser()
       .then(res => {
         const data = res.data;
         dispatch(fetchSuccess());
-        console.log(data[0]);
         dispatch(setInfo(data[0]));
       })
       .catch(error => {

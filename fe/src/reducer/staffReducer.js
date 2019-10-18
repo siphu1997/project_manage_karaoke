@@ -8,7 +8,6 @@ const initState = {
 const staffReducer = (state = initState, action) => {
   switch (action.type) {
     case STAFF_CONSTANT.SET_INFO:
-      console.lod(action.payload);
       return {
         ...state,
         staffInfo: action.payload.data

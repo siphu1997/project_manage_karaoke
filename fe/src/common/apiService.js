@@ -10,11 +10,12 @@ class ApiService {
       },
       responseType: "json"
     });
-    this.token = "";
+    // this.token = "";
   }
 
   setToken = token => {
-    this.token = token;
+    // this.token = token;
+    this.axios.defaults.headers.common["Authorization"] = `Basic ${token}`;
   };
   checkLogin = (id, pw) => {
     const data = {
@@ -24,13 +25,13 @@ class ApiService {
     return this.axios.post("auth/login", JSON.stringify(data));
   };
 
-  getDataUserWithToken = token => {
+  getDataUser = () => {
     // console.log(token);
-    return this.axios.get("secured/users", {
-      headers: {
-        Authorization: `Basic ${token}`
-      }
-    });
+    return this.axios.get("secured/users");
+  };
+
+  getAllRoom = () => {
+    return this.axios.get("secured/rooms");
   };
 }
 

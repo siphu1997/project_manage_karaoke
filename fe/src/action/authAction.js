@@ -1,10 +1,10 @@
 import api from "../common/apiService";
-import { handleSetInfo } from "./staffAction";
 export const LOGIN_CONSTANT = {
   LOADING: "LOADING",
   DO_LOGIN: "DO_LOGIN",
   DO_LOGOUT: "DO_LOGOUT",
-  LOGIN_FAIL: "LOGIN_FAIL"
+  LOGIN_FAIL: "LOGIN_FAIL",
+  SET_AUTH: "SET_AUTH"
 };
 
 const doLogin = () => ({
@@ -26,6 +26,20 @@ const fail = mes => ({
   }
 });
 
+export const updateAuth = isAuth => ({
+  type: LOGIN_CONSTANT.SET_AUTH,
+  payload: {
+    isAuth
+  }
+});
+
+export const setAuth = (isAuth, token) => {
+  return dispatch => {
+    api.setToken(token);
+    dispatch(updateAuth(isAuth));
+  };
+};
+
 export const handleLogin = (id, pw) => {
   return dispatch => {
     dispatch(loading());
@@ -35,7 +49,8 @@ export const handleLogin = (id, pw) => {
         var data = res.data.data;
         window.sessionStorage.setItem("isAuth", "true");
         window.sessionStorage.setItem("token", data.token);
-        dispatch(handleSetInfo(data));
+        // dispatch(handleSetInfo(data));
+        api.setToken(data.token);
         dispatch(doLogin());
       })
       .catch(error => {

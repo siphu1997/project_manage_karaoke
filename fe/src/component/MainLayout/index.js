@@ -15,12 +15,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+
 import { Button, withStyles } from "@material-ui/core";
 import { Backspace } from "@material-ui/icons";
 import { ListItemAvatar, Avatar } from "@material-ui/core";
-import { Folder as FolderIcon } from "@material-ui/icons";
+import { linkstaff, linkadmin } from "../../configureRoutes";
+import Icon from "@material-ui/core/Icon";
+import { Link } from "react-router-dom";
+import Skeleton from "@material-ui/lab/Skeleton";
 const drawerWidth = 240;
 
 const StyledDivider = withStyles(theme => ({
@@ -31,7 +33,10 @@ const StyledDivider = withStyles(theme => ({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    "& .MuiSkeleton-root": {
+      backgroundColor: "white"
+    }
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -95,6 +100,21 @@ const useStyles = makeStyles(theme => ({
     "& .MuiListItemIcon-root": {
       color: `${theme.palette.secondary.main} !important`
     }
+  },
+  editLink: {
+    textDecoration: "none",
+    color: "inherit",
+    "& .MuiListItem-root": {
+      "&:hover": {
+        backgroundColor: "rgba(0,0,0,0.55)"
+      },
+      "&.Mui-selected": {
+        backgroundColor: theme.palette.secondary.main,
+        "& .MuiListItemIcon-root": {
+          color: `${theme.palette.primary.main} !important`
+        }
+      }
+    }
   }
 }));
 
@@ -110,7 +130,13 @@ export default function MainLayout(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const {
+    selectedIndex,
+    handleListItemClick,
+    isLoading,
+    isAdmin,
+    userName
+  } = props;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -134,7 +160,7 @@ export default function MainLayout(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap style={{ flexGrow: 1 }}>
-            Karaoke Management
+            Quản lý Karaoke
           </Typography>
           <Button
             variant="outlined"
@@ -170,36 +196,76 @@ export default function MainLayout(props) {
             )}
           </IconButton>
         </div>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar style={{ width: "24px", height: "auto" }}>
-              <FolderIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary="Single-line item" />
-        </ListItem>
-        <StyledDivider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+          <Link to="/staff-info" className={classes.editLink}>
+            <ListItem
+              selected={selectedIndex === "info"}
+              onClick={() => handleListItemClick("info")}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  style={{ width: "24px", height: "24px", fontSize: "1rem" }}
+                >
+                  {/* <FolderIcon /> */}
+                  {userName[0]}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  isLoading ? <Skeleton height={6} width="80%" /> : userName
+                }
+              />
             </ListItem>
-          ))}
+          </Link>
         </List>
         <StyledDivider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
+          {linkstaff.map((item, index) => (
+            <Link
+              key={`staff_link_${index}`}
+              to={`${item.url}`}
+              className={classes.editLink}
+            >
+              <ListItem
+                button
+                key={item.label}
+                selected={selectedIndex === item.url}
+                onClick={() => handleListItemClick(item.url)}
+              >
+                <ListItemIcon>
+                  <Icon>{item.icon}</Icon>
+                </ListItemIcon>
+                <ListItemText primary={item.label} />
+              </ListItem>
+            </Link>
           ))}
         </List>
+        {isAdmin && (
+          <>
+            <StyledDivider />
+            <List>
+              {linkadmin.map((item, index) => (
+                <Link
+                  key={`admin_link_${index}`}
+                  to={`${item.url}`}
+                  className={classes.editLink}
+                >
+                  <ListItem
+                    button
+                    key={item.label}
+                    selected={selectedIndex === item.url}
+                    onClick={() => handleListItemClick(item.url)}
+                  >
+                    <ListItemIcon>
+                      <Icon>{item.icon}</Icon>
+                    </ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          </>
+        )}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />

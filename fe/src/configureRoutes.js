@@ -1,3 +1,4 @@
+import React from "react";
 import HomeCtn from "./container/HomeCtn";
 import LoginCtn from "./container/LoginCtn";
 import NoMatch from "./component/NoMatch";
@@ -5,12 +6,16 @@ import Dashboard from "./container/Dashboard";
 import ManageRoom from "./container/ManageRoom";
 import ManageStaff from "./container/ManageStaff";
 import ManageMenu from "./container/ManageMenu";
+import ManageRoomStaff from "./container/ManageRoomStaff";
 
+import { Redirect } from "react-router-dom";
+const RedirectCpn = () => <Redirect to="/nomatch" />;
 const routes = [
   {
     exact: true,
     path: "/",
     component: HomeCtn,
+    isPrivate: true,
     routes: [
       {
         component: Dashboard
@@ -32,8 +37,14 @@ const routes = [
     // ]
   },
   {
+    exact: true,
+    path: "/nomatch",
+    component: NoMatch
+  },
+  {
     path: "/:tab",
     component: HomeCtn,
+    isPrivate: true,
     routes: [
       {
         path: "/dashboard",
@@ -52,32 +63,47 @@ const routes = [
         component: ManageMenu
       },
       {
-        component: NoMatch
+        path: "/book-room",
+        component: ManageRoomStaff
+      },
+      {
+        component: RedirectCpn
       }
     ]
   },
-
   {
     component: NoMatch
   }
 ];
 
-export const links = [
+export const linkstaff = [
+  {
+    label: "Đặt phòng",
+    url: "/book-room",
+    icon: "room_service"
+  }
+];
+
+export const linkadmin = [
   {
     label: "Dashboard",
-    url: "/dashboard"
+    url: "/dashboard",
+    icon: "trending_up"
   },
   {
     label: "Quản lý phòng",
-    url: "/manage-room"
+    url: "/manage-room",
+    icon: "home"
   },
   {
     label: "Quản lý nhân viên",
-    url: "/manage-staff"
+    url: "/manage-staff",
+    icon: "supervisor_account"
   },
   {
     label: "Quản lý món ăn",
-    url: "/manage-menu"
+    url: "/manage-menu",
+    icon: "fastfood"
   }
 ];
 

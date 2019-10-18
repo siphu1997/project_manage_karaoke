@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { RouteWithSubRoutes } from "../component";
+import { setAuth } from "../action/authAction";
+import { CircularProgress } from "@material-ui/core";
 // function RouteWithSubRoutes(route) {
 //   return (
 //     <Route
@@ -13,8 +15,30 @@ import { RouteWithSubRoutes } from "../component";
 // }
 
 class App extends Component {
+  state = {
+    loading: true
+  };
+
+  setAuth = () => {
+    const auth = window.sessionStorage.getItem("isAuth");
+    const token = window.sessionStorage.getItem("token");
+    if (auth) {
+      this.props.handleSetAuth(auth, token);
+    } else {
+      this.props.handleSetAuth(auth, null);
+    }
+  };
+
+  componentDidMount = () => {
+    this.setAuth();
+    this.setState({ loading: false });
+  };
   render() {
     const { routes, auth } = this.props;
+    if (this.state.loading) {
+      return <CircularProgress size="60" color="secondary" />;
+    }
+
     return (
       <div>
         {!auth.isAuth && (
@@ -25,9 +49,15 @@ class App extends Component {
           />
         )}
         <Switch>
-          {routes.map((route, index) => (
-            <RouteWithSubRoutes key={index} {...route} />
-          ))}
+          {routes.map((route, index) => {
+            if (route.isPrivate && !auth.isAuth) {
+              return null;
+            }
+            if (route.isPrivate === auth.isAuth) {
+              return <RouteWithSubRoutes key={index} {...route} />;
+            }
+            return <RouteWithSubRoutes key={index} {...route} />;
+          })}
         </Switch>
       </div>
     );
@@ -36,7 +66,13 @@ class App extends Component {
 const mapStateToProps = state => ({
   auth: state.auth
 });
+
+const mapDispatchToProps = dispatch => ({
+  handleSetAuth: (isAuth, token) => {
+    dispatch(setAuth(isAuth, token));
+  }
+});
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(App);
