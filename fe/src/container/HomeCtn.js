@@ -49,7 +49,9 @@ class HomeCtn extends Component {
     return (
       <MainLayout
         handleLogout={handleLogout}
-        selectedIndex={selectedIndex}
+        selectedIndex={
+          selectedIndex === "/undefined" ? "/dashboard" : selectedIndex
+        }
         handleListItemClick={this.handleListItemClick}
         userName={staff ? staff.username : ""}
         isAdmin={staff ? this.checkIsAdmin() : null}
