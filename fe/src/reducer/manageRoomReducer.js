@@ -1,6 +1,7 @@
 import { MANAGE_ROOM_CONSTANT } from "../action/manageRoomAction";
 const initState = {
   data: null,
+  roomType: null,
   loading: false,
   error: ""
 };
@@ -21,10 +22,17 @@ const manageRoomReducer = (state = initState, action) => {
       };
 
     case MANAGE_ROOM_CONSTANT.FETCH_FAIL:
+      console.log(action.payload.error);
       return {
         ...state,
         loading: false,
         error: action.payload.error
+      };
+
+    case MANAGE_ROOM_CONSTANT.ROOM_TYPE:
+      return {
+        ...state,
+        roomType: action.payload.data
       };
 
     default:

@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import * as manageRoomAction from "../action/manageRoomAction";
 import { Box, CircularProgress } from "@material-ui/core";
 import MaterialTable from "material-table";
-import CurrencyFormat from "react-currency-format";
+import api from "../common/apiService";
 class ManageRoom extends Component {
   doFetchData = () => {
     const { isAuth, manageRoom } = this.props;
@@ -21,31 +21,52 @@ class ManageRoom extends Component {
   render() {
     const { manageRoom } = this.props;
     const formatColumns = [
-      { title: "ID", field: "roomId", editable: "never" },
-      { title: "Tên", field: "roomName" },
+      { title: "ID", field: "roomId", editable: "never", grouping: false },
+      { title: "Tên", field: "roomName", grouping: false },
       {
         title: "Loại",
         field: "roomType",
-        lookup: { 1: "Thường", 2: "VIP" }
+
+        // lookup: { 1: "Thường", 2: "VIP" }
+        lookup: manageRoom.roomType ? manageRoom.roomType.dataType : []
       },
       {
         title: "Giá",
-        field: "roomPrice",
+        field: "roomType",
+        lookup: manageRoom.roomType ? manageRoom.roomType.dataPrice : [],
         editable: "never",
-        render: rowData =>
-          rowData ? (
-            <CurrencyFormat
-              value={rowData.roomPrice}
-              displayType={"text"}
-              thousandSeparator={true}
-              suffix=" VND"
-            />
-          ) : (
-            ""
-          )
+        type: "currency",
+        currencySetting: {
+          currencyCode: "VND",
+          locale: "vi-VN",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        }
+        // render: rowData =>
+        //   rowData ? (
+        //     // <CurrencyFormat
+        //     //   value={rowData.roomPrice}
+        //     //   displayType={"text"}
+        //     //   thousandSeparator={true}
+        //     //   suffix=" VND"
+        //     // />
+        //     `${currencyFormatter.format(rowData.roomPrice, { code: 'VND' })}`
+        //   ) : (
+        //     ""
+        //   )
       },
-      { title: "Trạng thái", field: "isActive", type: "boolean" },
-      { title: "Hoạt động", field: "isUsing", type: "boolean" }
+      {
+        title: "Trạng thái",
+        field: "isActive",
+        type: "boolean",
+        editable: "onUpdate"
+      },
+      {
+        title: "Hoạt động",
+        field: "isUsing",
+        type: "boolean",
+        editable: "onUpdate"
+      }
     ];
     if (manageRoom.loading) {
       return (
@@ -62,33 +83,47 @@ class ManageRoom extends Component {
             data={manageRoom.data}
             title="Quản lý phòng"
             options={{
-              actionsColumnIndex: -1
+              actionsColumnIndex: -1,
+              grouping: true
             }}
             columns={formatColumns}
             editable={{
-              onRowAdd: newData =>
-                new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    {
-                      /* const data = this.state.data;
-                        data.push(newData);
-                        this.setState({ data }, () => resolve()); */
-                    }
-                    resolve();
-                  }, 1000);
-                }),
-              onRowUpdate: (newData, oldData) =>
-                new Promise((resolve, reject) => {
+              onRowAdd: newData => {
+                // console.log(newData);
+                return api
+                  .createNewRoom(newData.roomName, newData.roomType)
+                  .then(res => {
+                    console.log(res);
+                  })
+                  .catch(error => {
+                    console.log(new Error(error));
+                  });
+                // new Promise((resolve, reject) => {
+                //   setTimeout(() => {
+                //     {
+                //       /* const data = this.state.data;
+                //         data.push(newData);
+                //         this.setState({ data }, () => resolve()); */
+                //     }
+                //     resolve();
+                //   }, 1000);
+                // })
+              },
+              onRowUpdate: (newData, oldData) => {
+                console.log(newData);
+                console.log(oldData);
+                return new Promise((resolve, reject) => {
                   setTimeout(() => {
                     {
                       /* const data = this.state.data;
                         const index = data.indexOf(oldData);
-                        data[index] = newData;                
+                        data[index] = newData;
                         this.setState({ data }, () => resolve()); */
                     }
                     resolve();
                   }, 1000);
-                }),
+                });
+              },
               onRowDelete: oldData =>
                 new Promise((resolve, reject) => {
                   setTimeout(() => {
@@ -105,7 +140,8 @@ class ManageRoom extends Component {
             localization={{
               body: {},
               toolbar: {
-                searchTooltip: "Tìm kiếm"
+                searchTooltip: "Tìm kiếm",
+                searchPlaceholder: "Tìm kiếm"
               },
               pagination: {
                 labelRowsSelect: "Dòng",
@@ -114,6 +150,9 @@ class ManageRoom extends Component {
                 previousTooltip: "Trang trước",
                 nextTooltip: "Trang tiếp",
                 lastTooltip: "Trang cuối"
+              },
+              grouping: {
+                placeholder: "Kéo tựa đề  cột vào để  nhóm kết quả "
               }
             }}
           />

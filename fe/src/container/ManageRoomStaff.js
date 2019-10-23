@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as roomStaffAction from "../action/roomStaffAction";
 import { CircularProgress, Box } from "@material-ui/core";
+import { LayoutDialog } from "../component";
 
 class ManageRoomStaff extends Component {
   doFetchData = () => {
@@ -15,12 +16,26 @@ class ManageRoomStaff extends Component {
     }
   };
 
+  handleOpenDialog = (id, action) => {
+    this.props.roomStaffAction.doOpenDialog(id, action);
+  };
+
+  handleCloseDialog = () => {
+    this.props.roomStaffAction.doCloseDialog();
+  };
+
   componentDidMount = () => {
     this.doFetchData();
   };
   render() {
-    const { roomStaff } = this.props;
-    if (roomStaff.loading) {
+    const {
+      loading,
+      roomData,
+      isDialogOpen,
+      actionForDialog,
+      idForDialog
+    } = this.props.roomStaff;
+    if (loading) {
       return (
         <Box width="100%" justifyContent="center" mt={10} display="flex">
           <CircularProgress />
@@ -29,7 +44,17 @@ class ManageRoomStaff extends Component {
     }
     return (
       <div>
-        <RoomCtn data={roomStaff.roomData} isLoading={roomStaff.loading} />
+        <RoomCtn
+          data={roomData}
+          isLoading={loading}
+          handleClickOpen={this.handleOpenDialog}
+        />
+        <LayoutDialog
+          handleClose={this.handleCloseDialog}
+          isOpen={isDialogOpen}
+          action={actionForDialog}
+          idRoom={idForDialog}
+        />
       </div>
     );
   }

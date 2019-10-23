@@ -12,7 +12,7 @@ export default class RoomCtn extends Component {
 
   render() {
     const { isHover } = this.state;
-    let { data, isLoading } = this.props;
+    let { data, isLoading, handleClickOpen } = this.props;
     if (data) {
       data.sort((a, b) => {
         if (a.isActive) {
@@ -51,6 +51,8 @@ export default class RoomCtn extends Component {
                   type={item.type}
                   roomName={item.roomName}
                   totalMoney={item.totalMoney}
+                  roomId={item.roomId}
+                  handleOnclick={handleClickOpen}
                 />
               </Grid>
             ))}

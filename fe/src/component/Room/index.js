@@ -101,11 +101,18 @@ const useStyles = makeStyles(theme => ({
 
 const Room = props => {
   const [hover, setHover] = useState(false);
-  const { isActive, type, roomName, totalMoney } = props;
+  const { isActive, type, roomName, totalMoney, roomId, handleOnclick } = props;
   const classes = useStyles(props);
 
   return (
     <Paper
+      onClick={() => {
+        if (isActive) {
+          handleOnclick(roomId, "");
+        } else {
+          handleOnclick(roomId, "add");
+        }
+      }}
       elevation={hover ? 5 : 1}
       component="span"
       className={
@@ -143,13 +150,25 @@ const Room = props => {
         <div className={classes.control}>
           {isActive ? (
             <Box padding={1}>
-              <Fab color="secondary" size="small" className={clsx(classes.fab)}>
+              <Fab
+                color="secondary"
+                size="small"
+                className={clsx(classes.fab)}
+                onClick={e => {
+                  e.stopPropagation();
+                  handleOnclick(roomId, "edit");
+                }}
+              >
                 <EditIcon />
               </Fab>
               <Fab
                 color="secondary"
                 size="small"
                 className={clsx(classes.fab, classes.foodIcon)}
+                onClick={e => {
+                  e.stopPropagation();
+                  handleOnclick(roomId, "order");
+                }}
               >
                 <FastfoodIcon />
               </Fab>
@@ -157,13 +176,25 @@ const Room = props => {
                 color="secondary"
                 size="small"
                 className={clsx(classes.fab, classes.paymentIcon)}
+                onClick={e => {
+                  e.stopPropagation();
+                  handleOnclick(roomId, "payment");
+                }}
               >
                 <PaymentIcon />
               </Fab>
             </Box>
           ) : (
             <Box padding={1}>
-              <Fab color="secondary" size="small" className={classes.fab}>
+              <Fab
+                color="secondary"
+                size="small"
+                className={classes.fab}
+                onClick={e => {
+                  e.stopPropagation();
+                  handleOnclick(roomId, "add");
+                }}
+              >
                 <AddCircleIcon />
               </Fab>
             </Box>

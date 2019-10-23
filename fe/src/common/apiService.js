@@ -33,6 +33,20 @@ class ApiService {
   getAllRoom = () => {
     return this.axios.get("secured/rooms");
   };
+
+  getAllRoomType = () => {
+    return this.axios.get("secured/roomtypes");
+  };
+
+  /**=====ROOM===== */
+  createNewRoom = (roomName, roomTypeId) => {
+    return this.axios.post("secured/rooms", {
+      room_name: roomName,
+      roomtype: {
+        roomtype_id: roomTypeId
+      }
+    });
+  };
 }
 
 const appApi = new ApiService();
