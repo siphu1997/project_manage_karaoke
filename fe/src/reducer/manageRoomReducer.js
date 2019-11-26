@@ -35,6 +35,25 @@ const manageRoomReducer = (state = initState, action) => {
         roomType: action.payload.data
       };
 
+    case MANAGE_ROOM_CONSTANT.ADD_NEW_DATA:
+      return {
+        ...state,
+        data: [action.payload.data, ...state.data]
+      };
+
+    case MANAGE_ROOM_CONSTANT.ADD_NEW_DATA_UPDATE:
+      let newData = state.data.map(item => {
+        if (item.roomId === action.payload.data.roomId) {
+          return { ...action.payload.data };
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        data: newData
+      };
+
     default:
       return state;
   }

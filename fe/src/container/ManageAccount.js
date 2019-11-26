@@ -1,26 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as manageRoomAction from "../action/manageRoomAction";
+import * as manageAccount from "../action/manageAccountAction";
 import { Box, CircularProgress } from "@material-ui/core";
 import MaterialTable from "material-table";
 import api from "../common/apiService";
 import { formatDataRoomCTS } from "../common/format";
 import { withSnackbar } from "notistack";
-class ManageRoom extends Component {
+
+class ManageAccount extends Component {
   doFetchData = () => {
-    const { isAuth, manageRoom } = this.props;
+    const { isAuth, manageAccount } = this.props;
     if (isAuth) {
-      if (manageRoom.data === null) {
-        this.props.manageRoomAction.doFetch();
+      if (manageAccount.data === null) {
+        this.props.manageAccount.doFetch();
       }
     }
   };
 
-  addNewData = data => {
-    console.log("oday");
-    this.props.manageRoomAction.addNewData(data);
-  };
   showNotificate = (message, type) => {
     this.props.enqueueSnackbar(message, {
       variant: type,
@@ -31,86 +28,85 @@ class ManageRoom extends Component {
     this.doFetchData();
   };
   render() {
-    const { manageRoom } = this.props;
-    const formatColumns = [
-      {
-        title: "ID",
-        field: "roomId",
-        editable: "never",
-        grouping: false,
-        defaultSort: "asc"
-      },
-      {
-        title: "Tên",
-        field: "roomName",
-        grouping: false,
-        initialEditValue: "P."
-      },
-      {
-        title: "Loại",
-        field: "roomType",
+    const { manageAccount } = this.props;
+    // const formatColumns = [
+    //   {
+    //     title: "ID",
+    //     field: "roomId",
+    //     editable: "never",
+    //     grouping: false,
+    //     defaultSort: "asc"
+    //   },
+    //   {
+    //     title: "Tên",
+    //     field: "roomName",
+    //     grouping: false,
+    //     initialEditValue: "P."
+    //   },
+    //   {
+    //     title: "Loại",
+    //     field: "roomType",
 
-        // lookup: { 1: "Thường", 2: "VIP" }
-        lookup: manageRoom.roomType ? manageRoom.roomType.dataType : []
-      },
-      {
-        title: "Giá",
-        field: "roomType",
-        lookup: manageRoom.roomType ? manageRoom.roomType.dataPrice : [],
-        editable: "never",
-        type: "currency",
-        currencySetting: {
-          currencyCode: "VND",
-          locale: "vi-VN",
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2
-        }
-        // render: rowData =>
-        //   rowData ? (
-        //     // <CurrencyFormat
-        //     //   value={rowData.roomPrice}
-        //     //   displayType={"text"}
-        //     //   thousandSeparator={true}
-        //     //   suffix=" VND"
-        //     // />
-        //     `${currencyFormatter.format(rowData.roomPrice, { code: 'VND' })}`
-        //   ) : (
-        //     ""
-        //   )
-      },
-      {
-        title: "Trạng thái",
-        field: "isActive",
-        type: "boolean",
-        editable: "onUpdate"
-      },
-      {
-        title: "Hoạt động",
-        field: "isUsing",
-        type: "boolean",
-        editable: "onUpdate"
-      }
-    ];
-    if (manageRoom.loading) {
-      return (
-        <Box width="100%" justifyContent="center" mt={10} display="flex">
-          <CircularProgress />
-        </Box>
-      );
-    }
+    //     lookup: manageAccount.roomType ? manageAccount.roomType.dataType : []
+    //   },
+    //   {
+    //     title: "Giá",
+    //     field: "roomType",
+    //     lookup: manageAccount.roomType ? manageAccount.roomType.dataPrice : [],
+    //     editable: "never",
+    //     type: "currency",
+    //     currencySetting: {
+    //       currencyCode: "VND",
+    //       locale: "vi-VN",
+    //       minimumFractionDigits: 0,
+    //       maximumFractionDigits: 2
+    //     }
+    //     // render: rowData =>
+    //     //   rowData ? (
+    //     //     // <CurrencyFormat
+    //     //     //   value={rowData.roomPrice}
+    //     //     //   displayType={"text"}
+    //     //     //   thousandSeparator={true}
+    //     //     //   suffix=" VND"
+    //     //     // />
+    //     //     `${currencyFormatter.format(rowData.roomPrice, { code: 'VND' })}`
+    //     //   ) : (
+    //     //     ""
+    //     //   )
+    //   },
+    //   {
+    //     title: "Trạng thái",
+    //     field: "isActive",
+    //     type: "boolean",
+    //     editable: "onUpdate"
+    //   },
+    //   {
+    //     title: "Hoạt động",
+    //     field: "isUsing",
+    //     type: "boolean",
+    //     editable: "onUpdate"
+    //   }
+    // ];
+    // if (manageAccount.loading) {
+    //   return (
+    //     <Box width="100%" justifyContent="center" mt={10} display="flex">
+    //       <CircularProgress />
+    //     </Box>
+    //   );
+    // }
 
     return (
       <Box padding={2}>
-        {manageRoom.data && (
+        {manageAccount.data && (
           <MaterialTable
-            data={manageRoom.data}
+            data={manageAccount.data}
             title="Quản lý phòng"
             options={{
               actionsColumnIndex: -1,
               grouping: true,
               pageSize: 10
             }}
-            columns={formatColumns}
+            // columns={formatColumns}
             editable={{
               onRowAdd: newData => {
                 console.log(newData);
@@ -152,8 +148,8 @@ class ManageRoom extends Component {
                       roomPrice: data.roomtype.roomtype_price,
                       roomType: data.roomtype.roomtype_id
                     };
-                    // this.props.manageRoomAction.addNewData(data);
-                    this.props.manageRoomAction.addNewDataUpdate(customData);
+                    // this.props.manageAccount.addNewData(data);
+                    this.props.manageAccount.addNewDataUpdate(customData);
                     this.showNotificate("Cập nhật thành công", "success");
                   })
                   .catch(error => {
@@ -214,13 +210,13 @@ class ManageRoom extends Component {
 
 const mapStateToProps = state => ({
   isAuth: state.auth.isAuth,
-  manageRoom: state.manageRoom
+  manageAccount: state.manageAccount
 });
 
 const mapDispatchToProps = dispatch => ({
-  manageRoomAction: bindActionCreators(manageRoomAction, dispatch)
+  manageAccount: bindActionCreators(manageAccount, dispatch)
 });
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withSnackbar(ManageRoom));
+)(withSnackbar(ManageAccount));

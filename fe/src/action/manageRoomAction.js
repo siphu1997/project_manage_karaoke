@@ -1,9 +1,12 @@
 import api from "../common/apiService";
+const name = "MANAGE_ROOM_CONSTANT_";
 export const MANAGE_ROOM_CONSTANT = {
-  FETCH_BEGIN: "MANAGE_ROOM_CONSTANT_FETCH_BEGIN",
-  FETCH_SUCCESS: "MANAGE_ROOM_CONSTANT_FETCH_SUCCESS",
-  FETCH_FAIL: "MANAGE_ROOM_CONSTANT_FETCH_FAIL",
-  ROOM_TYPE: "MANAGE_ROOM_CONSTANT_ROOM_TYPE"
+  FETCH_BEGIN: name + "FETCH_BEGIN",
+  FETCH_SUCCESS: name + "FETCH_SUCCESS",
+  FETCH_FAIL: name + "FETCH_FAIL",
+  ROOM_TYPE: name + "ROOM_TYPE",
+  ADD_NEW_DATA: name + "ADD_NEW_DATA",
+  ADD_NEW_DATA_UPDATE: name + "ADD_NEW_DATA_UPDATE"
 };
 
 const fetchBegin = () => ({
@@ -35,14 +38,7 @@ export const doFetch = () => {
     try {
       const roomTypeData = await api.getAllRoomType().then(res => {
         const { data } = res.data;
-        // const customData = data.map(item => ({
-        //   isUsing: item.is_using === 1 ? true : false,
-        //   isActive: item.status === 1 ? true : false,
-        //   roomId: item.room_id,
-        //   roomName: item.room_name,
-        //   roomPrice: item.roomtype.roomtype_price,
-        //   roomType: item.roomtype.roomtype_id
-        // }));
+
         let dataType = {};
         let dataPrice = {};
 
@@ -79,39 +75,23 @@ export const doFetch = () => {
         return customData;
       });
 
-      // console.log(roomTypeData);
-      // console.log(roomData);
-
       dispatch(fetchSuccess(roomData));
     } catch (error) {
       dispatch(fetchFail(new Error(error)));
     }
-
-    // api
-    //   .getAllRoom()
-    //   .then(res => {
-    //     const { data } = res.data;
-    //     console.log(data);
-    //     const customData = data.map(item => ({
-    //       isUsing: item.is_using === 1 ? true : false,
-    //       isActive: item.status === 1 ? true : false,
-    //       roomId: item.room_id,
-    //       roomName: item.room_name,
-    //       roomPrice: item.roomtype.roomtype_price,
-    //       roomType: item.roomtype.roomtype_id
-    //     }));
-    //     dispatch(
-    //       fetchSuccess(customData)
-    //       //   fetchSuccess([
-    //       //     ...customData,
-    //       //     ...customData,
-    //       //     ...customData,
-    //       //     ...customData
-    //       //   ])
-    //     );
-    //   })
-    //   .catch(error => {
-    //     dispatch(fetchFail(new Error(error)));
-    //   });
   };
 };
+
+export const addNewData = data => ({
+  type: MANAGE_ROOM_CONSTANT.ADD_NEW_DATA,
+  payload: {
+    data
+  }
+});
+
+export const addNewDataUpdate = data => ({
+  type: MANAGE_ROOM_CONSTANT.ADD_NEW_DATA_UPDATE,
+  payload: {
+    data
+  }
+});

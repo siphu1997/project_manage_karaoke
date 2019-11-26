@@ -1,10 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InfoDialog from "./Info";
 import AddDialog from "./Add";
@@ -56,18 +54,26 @@ export default function LayoutDialog(props) {
         fullWidth
         maxWidth="md"
       >
-        <DialogTitle id="form-dialog-title">{getTitle(action)}</DialogTitle>
-        <Divider />
-        <DialogContent>{getLayout(action, props)}</DialogContent>
-        <Divider />
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Hủy
-          </Button>
-          <Button onClick={handleClose} color="secondary" variant="contained">
-            Đồng ý
-          </Button>
-        </DialogActions>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+          }}
+        >
+          <DialogTitle id="form-dialog-title">{getTitle(action)}</DialogTitle>
+          <Divider />
+          <DialogContent style={{ padding: "24px" }}>
+            {getLayout(action, props)}
+          </DialogContent>
+          <Divider />
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Hủy
+            </Button>
+            <Button type="submit" color="secondary" variant="contained">
+              Đồng ý
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

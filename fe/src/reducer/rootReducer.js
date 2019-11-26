@@ -3,6 +3,7 @@ import authReducer from "./authReducer";
 import staffReducer from "./staffReducer";
 import roomStaffReducer from "./roomStaffReducer";
 import manageRoomReducer from "./manageRoomReducer";
+import manageAccountReducer from "./manageAccountReducer";
 
 import { LOGIN_CONSTANT } from "../action/authAction";
 
@@ -11,7 +12,8 @@ const appReducer = combineReducers({
   auth: authReducer,
   staff: staffReducer,
   roomStaff: roomStaffReducer,
-  manageRoom: manageRoomReducer
+  manageRoom: manageRoomReducer,
+  manageAccount: manageAccountReducer
 });
 
 const rootReducer = (state, action) => {

@@ -81,7 +81,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(handleFetch());
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeCtn);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeCtn);

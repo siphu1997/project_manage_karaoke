@@ -47,6 +47,16 @@ class ApiService {
       }
     });
   };
+
+  updateRoom = data => {
+    return this.axios.put("secured/rooms/" + data.room_id, {
+      ...data
+    });
+  };
+
+  deleteRoom = id => {
+    return this.axios.delete("secured/rooms/" + id);
+  };
 }
 
 const appApi = new ApiService();

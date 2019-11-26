@@ -4,7 +4,7 @@ import LoginCtn from "./container/LoginCtn";
 import NoMatch from "./component/NoMatch";
 import Dashboard from "./container/Dashboard";
 import ManageRoom from "./container/ManageRoom";
-import ManageStaff from "./container/ManageStaff";
+import ManageAccount from "./container/ManageAccount";
 import ManageMenu from "./container/ManageMenu";
 import ManageRoomStaff from "./container/ManageRoomStaff";
 
@@ -25,16 +25,6 @@ const routes = [
   {
     path: "/login",
     component: LoginCtn
-    // routes: [
-    //   {
-    //     path: "/tacos/bus",
-    //     component: Bus
-    //   },
-    //   {
-    //     path: "/tacos/cart",
-    //     component: Cart
-    //   }
-    // ]
   },
   {
     exact: true,
@@ -55,8 +45,8 @@ const routes = [
         component: ManageRoom
       },
       {
-        path: "/manage-staff",
-        component: ManageStaff
+        path: "/manage-account",
+        component: ManageAccount
       },
       {
         path: "/manage-menu",
@@ -97,7 +87,7 @@ export const linkadmin = [
   },
   {
     label: "Quản lý nhân viên",
-    url: "/manage-staff",
+    url: "/manage-account",
     icon: "supervisor_account"
   },
   {
