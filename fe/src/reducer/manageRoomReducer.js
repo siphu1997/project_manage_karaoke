@@ -2,6 +2,7 @@ import { MANAGE_ROOM_CONSTANT } from "../action/manageRoomAction";
 const initState = {
   data: null,
   roomType: null,
+  dataRoomType: null,
   loading: false,
   error: ""
 };
@@ -18,6 +19,13 @@ const manageRoomReducer = (state = initState, action) => {
       return {
         ...state,
         data: action.payload.data,
+        loading: false
+      };
+
+    case MANAGE_ROOM_CONSTANT.ROOM_ALL_TYPE:
+      return {
+        ...state,
+        dataRoomType: action.payload.data,
         loading: false
       };
 
@@ -43,7 +51,7 @@ const manageRoomReducer = (state = initState, action) => {
 
     case MANAGE_ROOM_CONSTANT.ADD_NEW_DATA_UPDATE:
       let newData = state.data.map(item => {
-        if (item.roomId === action.payload.data.roomId) {
+        if (item.id === action.payload.data.id) {
           return { ...action.payload.data };
         }
         return item;
@@ -52,6 +60,38 @@ const manageRoomReducer = (state = initState, action) => {
       return {
         ...state,
         data: newData
+      };
+
+    case MANAGE_ROOM_CONSTANT.ADD_NEW_DATA_ROOM_TYPE:
+      return {
+        ...state,
+        dataRoomType: [action.payload.data, ...state.dataRoomType]
+      };
+
+    case MANAGE_ROOM_CONSTANT.ADD_NEW_DATA_UPDATE_ROOM_TYPE:
+      let newDataRoomType = state.dataRoomType.map(item => {
+        if (item.id === action.payload.data.id) {
+          return { ...action.payload.data };
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        dataRoomType: newDataRoomType
+      };
+
+    case MANAGE_ROOM_CONSTANT.DELETE_ROOM:
+      return {
+        ...state,
+        data: state.data.filter(item => item.id !== action.payload.id)
+      };
+    case MANAGE_ROOM_CONSTANT.DELETE_ROOM_TYPE:
+      return {
+        ...state,
+        dataRoomType: state.dataRoomType.filter(
+          item => item.id !== action.payload.id
+        )
       };
 
     default:

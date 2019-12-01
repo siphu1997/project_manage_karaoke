@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { RouteWithSubRoutes } from "../component";
 import { setAuth } from "../action/authAction";
 import { CircularProgress } from "@material-ui/core";
+import Notifier from "./Notifier";
+// import { enqueueSnackbar, closeSnackbar } from "../action/notifierAction";
 // function RouteWithSubRoutes(route) {
 //   return (
 //     <Route
@@ -41,6 +43,7 @@ class App extends Component {
 
     return (
       <div>
+        <Notifier />
         {!auth.isAuth && (
           <Redirect
             to={{
@@ -72,7 +75,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setAuth(isAuth, token));
   }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

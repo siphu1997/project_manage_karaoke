@@ -14,7 +14,8 @@ ReactDOM.render(
     <Router>
       <ThemeProvider theme={theme}>
         <SnackbarProvider
-          maxSnack={3}
+          maxSnack={5}
+          autoHideDuration={3000}
           anchorOrigin={{
             vertical: "top",
             horizontal: "center"

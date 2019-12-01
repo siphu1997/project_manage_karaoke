@@ -33,8 +33,8 @@ const authReducer = (state = initState, action) => {
     case LOGIN_CONSTANT.LOGIN_FAIL: {
       return {
         ...state,
-        loading: false,
-        errorMes: action.payload.errorMes
+        loading: false
+        // errorMes: action.payload.errorMes
       };
     }
 

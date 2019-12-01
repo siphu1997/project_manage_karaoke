@@ -1,4 +1,5 @@
 import api from "../common/apiService";
+import { enqueueMySnackbar } from "./notifierAction";
 export const STAFF_CONSTANT = {
   SET_INFO: "SET_INFO",
   STAFF_FETCH_BEGIN: "STAFF_FETCH_BEGIN",
@@ -39,12 +40,15 @@ export const handleFetch = () => {
     api
       .getDataUser()
       .then(res => {
-        const data = res.data;
+        const { data } = res.data;
         dispatch(fetchSuccess());
-        dispatch(setInfo(data[0]));
+        dispatch(setInfo(data));
       })
       .catch(error => {
         dispatch(fetchFail());
+        dispatch(
+          enqueueMySnackbar("Không thể lấy dữ liệu tài khoản", "warning")
+        );
         // console.log(error);
       });
   };

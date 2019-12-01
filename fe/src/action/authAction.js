@@ -1,4 +1,5 @@
 import api from "../common/apiService";
+import { enqueueMySnackbar } from "./notifierAction";
 export const LOGIN_CONSTANT = {
   LOADING: "LOADING",
   DO_LOGIN: "DO_LOGIN",
@@ -19,11 +20,11 @@ const loading = () => ({
   type: LOGIN_CONSTANT.LOADING
 });
 
-const fail = mes => ({
-  type: LOGIN_CONSTANT.LOGIN_FAIL,
-  payload: {
-    errorMes: mes
-  }
+const fail = () => ({
+  type: LOGIN_CONSTANT.LOGIN_FAIL
+  // payload: {
+  //   errorMes: mes
+  // }
 });
 
 export const updateAuth = isAuth => ({
@@ -40,6 +41,16 @@ export const setAuth = (isAuth, token) => {
   };
 };
 
+export const fakeLogin = () => dispatch => {
+  const fakeToke = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTU3NDc1NjIxMCwiZXhwIjoxNTc1MzYxMDEwfQ.3ui9g_lnhuNvs2b9Yz9vAJtDbZ-74U6H3nwB-mD7t_DVR64ZMPbsgHehNv9EVByPYXSbSyMlV1aHBvf2GZ4jUA`;
+  //FAKE
+  window.sessionStorage.setItem("isAuth", "true");
+  window.sessionStorage.setItem("token", fakeToke);
+  // dispatch(handleSetInfo(data));
+  api.setToken(fakeToke);
+  dispatch(doLogin());
+};
+
 export const handleLogin = (id, pw) => {
   return dispatch => {
     dispatch(loading());
@@ -48,16 +59,17 @@ export const handleLogin = (id, pw) => {
       .then(res => {
         var data = res.data.data;
         window.sessionStorage.setItem("isAuth", "true");
-        window.sessionStorage.setItem("token", data.token);
+        window.sessionStorage.setItem("token", data.accessToken);
         // dispatch(handleSetInfo(data));
-        api.setToken(data.token);
+        api.setToken(data.accessToken);
         dispatch(doLogin());
       })
       .catch(error => {
-        if (error.response.data.message) {
-          dispatch(fail(error.response.data.message));
-        }
-        // dispatch(fail("sai roi"));
+        dispatch(fail());
+        // dispatch(fakeLogin());
+        if (error.response.data) {
+          dispatch(enqueueMySnackbar(error.response.data.message, "error"));
+        } else dispatch(enqueueMySnackbar("Sai rồi", "error"));
         // console.log(new Error(error) + "");
       });
   };

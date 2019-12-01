@@ -44,7 +44,12 @@ const getTitle = action => {
 };
 
 export default function LayoutDialog(props) {
-  const { isOpen, handleClose, idRoom, action } = props;
+  const {
+    isOpen,
+    handleClose,
+    // idRoom,
+    action
+  } = props;
   return (
     <div>
       <Dialog

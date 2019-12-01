@@ -27,17 +27,11 @@ class HomeCtn extends Component {
     }
   };
 
-  // componentDidUpdate = (prevProps, prevState) => {
-  //   console.log(this.props.staff);
-  //   if (this.props.staff === null && this.props.staff !== prevProps.staff) {
-  //     this.props.handleFetchStaffData();
-  //   }
-  // };
   checkIsAdmin = () => {
     const { roles } = this.props.staff;
     for (let index = 0; index < roles.length; index++) {
       const item = roles[index];
-      if (item.name === "admin") {
+      if (item === "ROLE_ADMIN") {
         return true;
       }
     }
@@ -53,7 +47,7 @@ class HomeCtn extends Component {
           selectedIndex === "/undefined" ? "/dashboard" : selectedIndex
         }
         handleListItemClick={this.handleListItemClick}
-        userName={staff ? staff.username : ""}
+        userName={staff ? staff.user.display_name : ""}
         isAdmin={staff ? this.checkIsAdmin() : null}
         isLoading={isLoading}
       >

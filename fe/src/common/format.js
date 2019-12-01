@@ -1,10 +1,6 @@
+/**FORMAT_ROOM */
 export const formatDataRoomCTS = data => ({
   is_using: data.isUsing ? 1 : 0,
-  room_name: data.roomName,
-  room_id: data.roomId,
-  roomtype: {
-    roomtype_id: data.roomType
-  },
   status: data.isActive ? 1 : 0
 });
 
@@ -16,6 +12,36 @@ export const formatDataRoomSTC = item => ({
   roomPrice: item.roomtype.roomtype_price,
   roomType: item.roomtype.roomtype_id
 });
+/**FORMAT_ACCOUNT */
+
+export const formatDataAcountCTS = (data, allRoles) => {
+  const resultData = { ...data };
+  // const roles = allRoles.filter(r => r.id === resultData.roleType);
+  delete resultData.roleType;
+  return resultData;
+};
+export const formatDataAcountSTC = item => {
+  console.log(item);
+  if (Array.isArray(item)) {
+    return item.map(i => ({
+      ...i,
+      roleType: i.roles_id
+    }));
+  }
+  return { ...item, roleType: item.roles_id };
+};
+
+export const formatLookupRole = roles => {
+  let result = {};
+  roles.forEach(role => {
+    result = { ...result, [role.id]: role.name };
+  });
+  // roles.map(role => {
+  //   result = { ...result, [role.id]: role.name };
+  //   return;
+  // });
+  return result;
+};
 
 // isActive: true;
 // isUsing: false;
