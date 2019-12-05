@@ -5,6 +5,7 @@ import roomStaffReducer from "./roomStaffReducer";
 import manageRoomReducer from "./manageRoomReducer";
 import manageAccountReducer from "./manageAccountReducer";
 import notifierReducer from "./notifierReducer";
+import manageMenuReducer from "./manageMenuReducer";
 
 import { LOGIN_CONSTANT } from "../action/authAction";
 
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   roomStaff: roomStaffReducer,
   manageRoom: manageRoomReducer,
   manageAccount: manageAccountReducer,
+  manageMenu: manageMenuReducer,
   noti: notifierReducer
 });
 

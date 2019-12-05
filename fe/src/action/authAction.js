@@ -44,8 +44,8 @@ export const setAuth = (isAuth, token) => {
 export const fakeLogin = () => dispatch => {
   const fakeToke = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbImFkbWluIl0sImlhdCI6MTU3NDc1NjIxMCwiZXhwIjoxNTc1MzYxMDEwfQ.3ui9g_lnhuNvs2b9Yz9vAJtDbZ-74U6H3nwB-mD7t_DVR64ZMPbsgHehNv9EVByPYXSbSyMlV1aHBvf2GZ4jUA`;
   //FAKE
-  window.sessionStorage.setItem("isAuth", "true");
-  window.sessionStorage.setItem("token", fakeToke);
+  window.localStorage.setItem("isAuth", "true");
+  window.localStorage.setItem("token", fakeToke);
   // dispatch(handleSetInfo(data));
   api.setToken(fakeToke);
   dispatch(doLogin());
@@ -58,8 +58,8 @@ export const handleLogin = (id, pw) => {
       .checkLogin(id, pw)
       .then(res => {
         var data = res.data.data;
-        window.sessionStorage.setItem("isAuth", "true");
-        window.sessionStorage.setItem("token", data.accessToken);
+        window.localStorage.setItem("isAuth", "true");
+        window.localStorage.setItem("token", data.accessToken);
         // dispatch(handleSetInfo(data));
         api.setToken(data.accessToken);
         dispatch(doLogin());
@@ -77,8 +77,8 @@ export const handleLogin = (id, pw) => {
 
 export const handleLogout = () => {
   return dispatch => {
-    window.sessionStorage.removeItem("isAuth");
-    window.sessionStorage.removeItem("token");
+    window.localStorage.removeItem("isAuth");
+    window.localStorage.removeItem("token");
     dispatch(doLogout());
   };
 };

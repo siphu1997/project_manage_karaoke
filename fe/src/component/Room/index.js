@@ -34,24 +34,24 @@ const RoomVipIconStyled = withStyles(theme => ({
 const data = [
   {
     isActive: true,
-    type: 1,
+    // type: 1,
     component: RoomOnIconStyled
   },
-  {
-    isActive: true,
-    type: 2,
-    component: RoomVipIconStyled
-  },
+  // {
+  //   isActive: true,
+  //   type: 2,
+  //   component: RoomVipIconStyled
+  // },
   {
     isActive: false,
-    type: 1,
+    // type: 1,
     component: RoomOffIcon
-  },
-  {
-    isActive: false,
-    type: 2,
-    component: RoomVipIconStyled
   }
+  // {
+  //   isActive: false,
+  //   type: 2,
+  //   component: RoomVipIconStyled
+  // }
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -125,7 +125,7 @@ const Room = props => {
         setHover(false);
       }}
     >
-      {data.map((item, index) => {
+      {/* {data.map((item, index) => {
         if (item.isActive === isActive && item.type === type) {
           return (
             <item.component
@@ -136,15 +136,30 @@ const Room = props => {
           );
         }
         return false;
-      })}
+      })} */}
+      {isActive ? (
+        <RoomOnIconStyled
+          key={`room_${roomId}`}
+          color={isActive ? "action" : "disabled"}
+          className={classes.iconRoom}
+        />
+      ) : (
+        <RoomOffIcon
+          key={`room_${roomId}`}
+          color={isActive ? "action" : "disabled"}
+          className={classes.iconRoom}
+        />
+      )}
       <Typography variant="h6">{roomName}</Typography>
-      {isActive && (
+      {isActive ? (
         <CurrencyFormat
           value={totalMoney}
           displayType={"text"}
           thousandSeparator={true}
           suffix=" VND"
         />
+      ) : (
+        ""
       )}
       <Zoom in={hover}>
         <div className={classes.control}>

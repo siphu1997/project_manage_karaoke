@@ -105,6 +105,27 @@ class ApiService {
   getRoleById = id => {
     return this.axios.get("roles/" + id);
   };
+
+  /**=====ROOM MENU===== */
+
+  getMenu = () => {
+    return this.axios.get("menu");
+  };
+  createNewMenu = data => {
+    return this.axios.post("menu", {
+      ...data
+    });
+  };
+
+  updateMenu = data => {
+    return this.axios.put("menu/" + data.id, {
+      ...data
+    });
+  };
+
+  deleteMenu = id => {
+    return this.axios.delete("menu/" + id);
+  };
 }
 
 const appApi = new ApiService();

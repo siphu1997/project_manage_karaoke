@@ -1,6 +1,6 @@
 import { LOGIN_CONSTANT } from "../action/authAction";
 const initState = {
-  // isAuth: window.sessionStorage.getItem("isAuth"),
+  // isAuth: window.localStorage.getItem("isAuth"),
   isAuth: null,
   loading: false,
   errorMes: ""

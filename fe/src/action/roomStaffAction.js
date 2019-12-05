@@ -11,10 +11,11 @@ export const ROOM_STAFF_CONSTANT = {
 const fetchBegin = () => ({
   type: ROOM_STAFF_CONSTANT.FETCH_BEGIN
 });
-const fetchSuccess = data => ({
+const fetchSuccess = (dataRoom, dataRoomType) => ({
   type: ROOM_STAFF_CONSTANT.FETCH_SUCCESS,
   payload: {
-    data
+    dataRoom,
+    dataRoomType
   }
 });
 const fetchFail = error => ({
@@ -36,33 +37,21 @@ const closeDialog = () => ({
 });
 
 export const doFetch = () => {
-  return dispatch => {
-    dispatch(fetchBegin());
-    api
-      .getAllRoom()
-      .then(res => {
+  return async dispatch => {
+    try {
+      dispatch(fetchBegin());
+      const dataRoom = await api.getAllRoom().then(res => {
         const { data } = res.data;
-        const customData = data.map(item => ({
-          isActive: item.is_using === 1 ? true : false,
-          type: item.roomtype.roomtype_id,
-          roomId: item.room_id,
-          roomName: item.room_name,
-          roomSlug: item.room_slug,
-          totalMoney: item.roomtype.roomtype_price
-        }));
-        dispatch(fetchSuccess(customData));
-        // dispatch(
-        //   fetchSuccess([
-        //     ...customData,
-        //     ...customData,
-        //     ...customData,
-        //     ...customData
-        //   ])
-        // );
-      })
-      .catch(error => {
-        dispatch(fetchFail(new Error(error)));
+        return data.filter(i => i.status);
       });
+      const dataRoomType = await api
+        .getAllRoomType()
+        .then(res => res.data.data);
+      dispatch(fetchSuccess(dataRoom, dataRoomType));
+    } catch (error) {
+      console.log(new Error(error));
+      dispatch(fetchFail(new Error(error)));
+    }
   };
 };
 

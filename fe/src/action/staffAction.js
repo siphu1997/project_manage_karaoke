@@ -35,7 +35,7 @@ export const handleSetInfo = data => {
 export const handleFetch = () => {
   return dispatch => {
     dispatch(fetchBegin());
-    const token = window.sessionStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
     api.setToken(token);
     api
       .getDataUser()

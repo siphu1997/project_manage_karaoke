@@ -19,7 +19,8 @@ const roomStaffReducer = (state = initState, action) => {
     case ROOM_STAFF_CONSTANT.FETCH_SUCCESS:
       return {
         ...state,
-        roomData: action.payload.data,
+        roomData: action.payload.dataRoom,
+        dataRoomType: action.payload.dataRoomType,
         loading: false
       };
 

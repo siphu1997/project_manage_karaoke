@@ -29,10 +29,15 @@ class ManageRoom extends Component {
   };
 
   printError = error => {
-    if (error.response.data && error.response.data.errors.length > 0) {
-      error.response.data.errors.forEach(item => {
+    const { errors, message } = error.response.data;
+    if (errors && errors.length > 0) {
+      errors.forEach(item => {
         this.showNotificate(item, "error");
       });
+    }
+
+    if (message) {
+      this.showNotificate(message, "error");
     }
   };
 
@@ -88,13 +93,13 @@ class ManageRoom extends Component {
         //   )
       },
       {
-        title: "Trạng thái",
+        title: "Hoạt động",
         field: "active",
         type: "boolean",
         editable: "onUpdate"
       },
       {
-        title: "Hoạt động",
+        title: "Trạng thái",
         field: "status",
         type: "boolean",
         editable: "onUpdate"
@@ -173,9 +178,9 @@ class ManageRoom extends Component {
                         this.showNotificate("Thêm mới thành công", "success");
                       })
                       .catch(error => {
-                        console.log(new Error(error));
                         this.showNotificate("Thêm mới thất bại", "error");
                         this.printError(error);
+                        return new Promise.reject();
                       });
                   },
                   onRowUpdate: (newData, oldData) => {

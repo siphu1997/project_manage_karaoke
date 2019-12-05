@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as manageAccountAction from "../action/manageAccountAction";
-import { Box, Typography, Zoom } from "@material-ui/core";
+import { Box, Typography, Zoom, CircularProgress } from "@material-ui/core";
 import MaterialTable from "material-table";
 import api from "../common/apiService";
 // import {
@@ -30,15 +30,27 @@ class ManageAccount extends Component {
   };
 
   printError = error => {
-    if (error.response.data && error.response.data.errors.length > 0) {
-      error.response.data.errors.forEach(item => {
+    const { errors, message } = error.response.data;
+    if (errors && errors.length > 0) {
+      errors.forEach(item => {
         this.showNotificate(item, "error");
       });
     }
-    if (error.response.data && error.response.data.message.length > 0) {
-      this.showNotificate(error.response.data.message, "error");
+
+    if (message) {
+      this.showNotificate(message, "error");
     }
   };
+  // printError = error => {
+  //   if (error.response.data && error.response.data.errors.length > 0) {
+  //     error.response.data.errors.forEach(item => {
+  //       this.showNotificate(item, "error");
+  //     });
+  //   }
+  //   if (error.response.data && error.response.data.message.length > 0) {
+  //     this.showNotificate(error.response.data.message, "error");
+  //   }
+  // };
 
   componentDidMount = () => {
     this.doFetchData();
@@ -95,6 +107,15 @@ class ManageAccount extends Component {
         grouping: false
       }
     ];
+
+    if (manageAccount.loading) {
+      return (
+        <Box width="100%" justifyContent="center" mt={10} display="flex">
+          <CircularProgress />
+        </Box>
+      );
+    }
+
     return (
       <Box padding={2}>
         {manageAccount.data && (
@@ -123,6 +144,7 @@ class ManageAccount extends Component {
                       this.showNotificate("Thêm mới không thành công", "error");
                       console.log(new Error(error));
                       this.printError(error);
+                      return new Promise.reject();
                     });
                 },
                 onRowUpdate: (newData, oldData) => {

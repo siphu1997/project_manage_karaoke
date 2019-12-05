@@ -22,8 +22,8 @@ class App extends Component {
   };
 
   setAuth = () => {
-    const auth = window.sessionStorage.getItem("isAuth");
-    const token = window.sessionStorage.getItem("token");
+    const auth = window.localStorage.getItem("isAuth");
+    const token = window.localStorage.getItem("token");
     if (auth) {
       this.props.handleSetAuth(auth, token);
     } else {

@@ -31,6 +31,7 @@ class ManageRoomStaff extends Component {
     const {
       loading,
       roomData,
+      dataRoomType,
       isDialogOpen,
       actionForDialog,
       idForDialog
@@ -46,6 +47,7 @@ class ManageRoomStaff extends Component {
       <div>
         <RoomCtn
           data={roomData}
+          roomType={dataRoomType}
           isLoading={loading}
           handleClickOpen={this.handleOpenDialog}
         />
@@ -68,7 +70,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   roomStaffAction: bindActionCreators(roomStaffAction, dispatch)
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ManageRoomStaff);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageRoomStaff);
