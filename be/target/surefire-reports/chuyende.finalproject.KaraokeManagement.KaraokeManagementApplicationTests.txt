@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: chuyende.finalproject.KaraokeManagement.KaraokeManagementApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 102.713 s - in chuyende.finalproject.KaraokeManagement.KaraokeManagementApplicationTests
